@@ -1,25 +1,43 @@
 package sm.deeplink.entity;
 
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 
-public class User {
-    @Id
-    @GeneratedValue
-    @Column(name = "userid", nullable = false)
-    private Long userId;
-    @Column(name = "username", length = 36, nullable = false)
-    private  String UserName;
-    @Column(name = "Password", length = 128, nullable = false)
-    private  String Password;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Collection;
+
+@Entity
+@Table(name = "maxuser")
+
+public class User implements Serializable , UserDetails {
+    private static final long serialVersionUID = 4048798961366546485L;
 
     public User() {
     }
 
+    @Id
+    @Column(name = "userid", nullable = false)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long userId;
+
+    @Column(name = "username", nullable = false)
+    private  String UserName;
+
+    @Column(name = "password", nullable = false)
+    private  String Password;
+
     public User(Long userId, String userName, String password) {
         this.userId = userId;
+        UserName = userName;
+        Password = password;
+    }
+
+    public User(String userName, String password) {
         UserName = userName;
         Password = password;
     }
@@ -40,8 +58,38 @@ public class User {
         UserName = userName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
     public String getPassword() {
         return Password;
+    }
+
+    @Override
+    public String getUsername() {
+        return null;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 
     public void setPassword(String password) {
