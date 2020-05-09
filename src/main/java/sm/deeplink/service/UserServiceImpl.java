@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public void delete(int id) {
+    public void delete(Long id) {
         userDao.deleteById(id);
     }
 
@@ -58,14 +58,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     }
 
     @Override
-    public User findById(int id) {
+    public User findById(Long id) {
         Optional<User> optionalUser = userDao.findById(id);
         return optionalUser.isPresent() ? optionalUser.get() : null;
     }
 
     @Override
     public User update(User userMod) {
-        User user = findById((userMod.getUserId()).intValue());
+        User user = findById(userMod.getUserId());
         if(user != null) {
             BeanUtils.copyProperties(userMod, user, "password");
             userDao.save(user);

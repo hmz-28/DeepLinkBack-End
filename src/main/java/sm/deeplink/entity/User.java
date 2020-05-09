@@ -2,11 +2,13 @@ package sm.deeplink.entity;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Set;
 
 @Entity
 @Table(name = "maxuser")
 
-public class User {
+public class User implements Serializable {
 
     @Id
     @Column(name = "userid", nullable = false)
@@ -21,6 +23,10 @@ public class User {
 
     @Column(name = "company", nullable = true)
     private String Company;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<DeepLink> Link;
+
 
     public User() {
     }
