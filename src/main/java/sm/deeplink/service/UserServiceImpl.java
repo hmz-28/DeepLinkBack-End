@@ -2,9 +2,6 @@ package sm.deeplink.service;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,7 +11,6 @@ import org.springframework.stereotype.Service;
 import sm.deeplink.dao.UserDao;
 import sm.deeplink.entity.User;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +27,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
@@ -66,7 +62,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User update(User userMod) {
         User user = findById(userMod.getUserId());
-        if(user != null) {
+        if (user != null) {
             BeanUtils.copyProperties(userMod, user, "password");
             userDao.save(user);
         }

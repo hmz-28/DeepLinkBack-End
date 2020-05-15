@@ -27,4 +27,5 @@ public interface UserDao extends JpaRepository<User, Long> {
     @Transactional
     @Query("select u from User u where u.userId = :userid")
     User getUserById(@Param("userid") Long userid);
+    
 }

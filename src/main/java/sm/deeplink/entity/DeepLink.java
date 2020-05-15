@@ -6,6 +6,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
 @Entity
 @Table(name = "maxlinks")
@@ -22,12 +23,32 @@ public class DeepLink implements Serializable {
     @Column(name = "linkname")
     private String linkname;
 
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "customer")
+    private String customer;
+
+    @Column(name = "environment")
+    private String environment;
+
+    @Column(name = "profile")
+    private String profile;
+
+    @Column(name = "status")
+    private String status;
+
+    @Column(name = "editedby")
+    private String editedby;
+
+    @Column(name = "modificationdate")
+    private Date modificationdate;
+
     @Column(name = "linkvalue",columnDefinition="TEXT")
     private String  linkvalue;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonIgnore
     @Fetch(FetchMode.JOIN)
     private User user;
 
@@ -66,5 +87,79 @@ public class DeepLink implements Serializable {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public String getEnvironment() {
+        return environment;
+    }
+
+    public void setEnvironment(String environment) {
+        this.environment = environment;
+    }
+
+    public String getProfile() {
+        return profile;
+    }
+
+    public void setProfile(String profile) {
+        this.profile = profile;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getEditedby() {
+        return editedby;
+    }
+
+    public void setEditedby(String editedby) {
+        this.editedby = editedby;
+    }
+
+    public Date getModificationdate() {
+        return modificationdate;
+    }
+
+    public void setModificationdate(Date modificationdate) {
+        this.modificationdate = modificationdate;
+    }
+
+    @Override
+    public String toString() {
+        return "DeepLink{" +
+                "id=" + id +
+                ", linkname='" + linkname + '\'' +
+                ", description='" + description + '\'' +
+                ", customer='" + customer + '\'' +
+                ", environment='" + environment + '\'' +
+                ", profile='" + profile + '\'' +
+                ", status='" + status + '\'' +
+                ", editedby='" + editedby + '\'' +
+                ", modificationdate=" + modificationdate +
+                ", linkvalue='" + linkvalue + '\'' +
+                ", user=" + user +
+                '}';
     }
 }
