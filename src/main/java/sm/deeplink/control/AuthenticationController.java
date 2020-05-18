@@ -2,24 +2,21 @@ package sm.deeplink.control;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sm.deeplink.config.JwtTokenUtil;
+import sm.deeplink.entity.User;
 import sm.deeplink.model.ApiResponse;
 import sm.deeplink.model.AuthToken;
 import sm.deeplink.model.LoginUser;
 import sm.deeplink.service.UserService;
-import sm.deeplink.entity.User;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/token")
+@RequestMapping("api/token")
 public class AuthenticationController {
 
     @Autowired
@@ -33,12 +30,17 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
     public ApiResponse<AuthToken> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
-
+//        System.out.println(loginUser.toString());
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
         final User user = userService.findOne(loginUser.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
-        return new ApiResponse<>(200, "success",new AuthToken(token, user.getUsername()));
+        return new ApiResponse<>(200, "success", new AuthToken(token, user.getUserId()));
     }
 
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
+    public User saveUser(@RequestBody User user) {
+
+        return userService.save(user);
+    }
 
 }

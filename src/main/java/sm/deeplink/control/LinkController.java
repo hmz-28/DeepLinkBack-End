@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/deeplinks")
+@RequestMapping("api/deeplinks")
 public class LinkController {
 
     @Autowired

@@ -12,21 +12,13 @@ import java.util.List;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value="/signup", method = RequestMethod.POST)
-    public User saveUser(@RequestBody User user){
-        return userService.save(user);
-    }
 
-    /*@PostMapping
-    public ApiResponse<User> saveUser(@RequestBody User user){
-        return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userService.save(user));
-    }*/
     @RequestMapping(value="/users", method = RequestMethod.GET)
     public ApiResponse<List<User>> listUser(){
         return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.",userService.findAll());
