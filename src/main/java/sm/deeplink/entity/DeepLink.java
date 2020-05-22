@@ -3,6 +3,8 @@ package sm.deeplink.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -12,45 +14,38 @@ import java.util.Date;
 @Table(name = "maxlinks")
 public class DeepLink implements Serializable {
 
-    public DeepLink() {
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
-
     @Column(name = "linkname")
     private String linkname;
-
     @Column(name = "description")
     private String description;
-
     @Column(name = "customer")
     private String customer;
-
     @Column(name = "environment")
     private String environment;
-
     @Column(name = "profile")
     private String profile;
-
     @Column(name = "status")
     private String status;
-
     @Column(name = "editedby")
     private String editedby;
-
     @Column(name = "modificationdate")
     private Date modificationdate;
-
-    @Column(name = "linkvalue",columnDefinition="TEXT")
-    private String  linkvalue;
-
-    @ManyToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY, optional = false)
+    @Column(name = "linkvalue", columnDefinition = "TEXT")
+    private String linkvalue;
+    private String cryptedlinkvalue;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @Fetch(FetchMode.JOIN)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
     private User user;
+
+    public DeepLink() {
+    }
 
     public DeepLink(String linkname, String linkvalue) {
         this.linkname = linkname;
@@ -146,20 +141,11 @@ public class DeepLink implements Serializable {
         this.modificationdate = modificationdate;
     }
 
-    @Override
-    public String toString() {
-        return "DeepLink{" +
-                "id=" + id +
-                ", linkname='" + linkname + '\'' +
-                ", description='" + description + '\'' +
-                ", customer='" + customer + '\'' +
-                ", environment='" + environment + '\'' +
-                ", profile='" + profile + '\'' +
-                ", status='" + status + '\'' +
-                ", editedby='" + editedby + '\'' +
-                ", modificationdate=" + modificationdate +
-                ", linkvalue='" + linkvalue + '\'' +
-                ", user=" + user +
-                '}';
+    public String getCryptedlinkvalue() {
+        return cryptedlinkvalue;
+    }
+
+    public void setCryptedlinkvalue(String cryptedlinkvalue) {
+        this.cryptedlinkvalue = cryptedlinkvalue;
     }
 }

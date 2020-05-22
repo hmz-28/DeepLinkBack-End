@@ -1,18 +1,20 @@
 package sm.deeplink.model;
 
+import sm.deeplink.entity.User;
+
 public class AuthToken {
 
     private String token;
     private String username;
-    private Long userid;
+    private User user;
 
     public AuthToken() {
 
     }
 
-    public AuthToken(String token, Long userid) {
+    public AuthToken(String token, User user) {
         this.token = token;
-        this.username = username;
+        this.user = user;
     }
 
     public AuthToken(String token) {
@@ -35,11 +37,11 @@ public class AuthToken {
         this.username = username;
     }
 
-    public Long getUserid() {
-        return userid;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

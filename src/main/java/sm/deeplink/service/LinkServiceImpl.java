@@ -3,6 +3,7 @@ package sm.deeplink.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import sm.deeplink.dao.LinkDao;
 import sm.deeplink.dao.UserDao;
@@ -10,6 +11,10 @@ import sm.deeplink.entity.DeepLink;
 import sm.deeplink.exception.GlobalExceptionHandler;
 import sm.deeplink.utils.EncryptedDeepLinkUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service(value = "linkServiceImpl")
@@ -31,7 +36,37 @@ public class LinkServiceImpl implements LinkService {
         if (!userDao.existsById(userid)) {
             throw new GlobalExceptionHandler("User not found!");
         }
-        return linkDao.findLinkByUserId(userid);
+        List<DeepLink> userlist = linkDao.findLinkByUserId(userid);
+        ArrayList<DeepLink> newUserList = new ArrayList<DeepLink>();
+
+        userlist.forEach(link -> {
+
+            DeepLink newLink = new DeepLink();
+            newLink.setId(link.getId());
+            newLink.setLinkname(link.getLinkname());
+            newLink.setLinkvalue(aesryptEncoder.decrypteLink(link.getLinkvalue()));
+            newLink.setCustomer(link.getCustomer());
+            newLink.setDescription(link.getDescription());
+            newLink.setEditedby(link.getEditedby());
+          /*  SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = dt.parse(dt.format(link.getModificationdate()));
+
+                newLink.setModificationdate(date);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }*/
+            newLink.setModificationdate(link.getModificationdate());
+            newLink.setProfile(link.getProfile());
+            newLink.setStatus(link.getStatus());
+            newLink.setEnvironment(link.getEnvironment());
+            newLink.setUser(link.getUser());
+            newLink.setCryptedlinkvalue("http://www.smartech-tn.com/launch?" +link.getLinkvalue());
+            newUserList.add(newLink);
+        });
+
+        return newUserList;
     }
 
     @Override
@@ -40,7 +75,7 @@ public class LinkServiceImpl implements LinkService {
                 .map(user -> {
                     link.setUser(user);
                     DeepLink newLink = new DeepLink();
-                    System.out.println(link);
+                   // System.out.println(link);
                     newLink.setLinkname(link.getLinkname());
                     newLink.setLinkvalue(aesryptEncoder.encryteLink(link.getLinkvalue()));
                     newLink.setCustomer(link.getCustomer());
@@ -51,6 +86,7 @@ public class LinkServiceImpl implements LinkService {
                     newLink.setStatus(link.getStatus());
                     newLink.setEnvironment(link.getEnvironment());
                     newLink.setUser(link.getUser());
+
                     linkDao.save(newLink);
                     return newLink;
                 }).orElseThrow(() -> new GlobalExceptionHandler("User not found!"));
@@ -71,7 +107,7 @@ public class LinkServiceImpl implements LinkService {
     }
 
     @Override
-    public String deleteLink(Long userid, Long linkid) {
+    public ResponseEntity<?> deleteLink(Long userid, Long linkid) {
         if (!userDao.existsById(userid)) {
             throw new GlobalExceptionHandler("User not found!");
         }
@@ -79,7 +115,7 @@ public class LinkServiceImpl implements LinkService {
         return linkDao.findById(linkid)
                 .map(link -> {
                     linkDao.delete(link);
-                    return "Deleted Successfully!";
+                    return ResponseEntity.ok().build();//"Deleted Successfully!";
                 }).orElseThrow(() -> new GlobalExceptionHandler("Link not found!"));
     }
 

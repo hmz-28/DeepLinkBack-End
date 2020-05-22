@@ -76,6 +76,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User save(User user) {
+        User existedUser = userDao.findByUsername(user.getUsername());
+        if (existedUser != null) {
+            throw new UsernameNotFoundException("Exist username.");
+        }
+
         User newUser = new User();
         newUser.setUsername(user.getUsername());
         newUser.setPassword(bcryptEncoder.encode(user.getPassword()));

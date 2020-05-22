@@ -7,7 +7,6 @@ import java.util.Set;
 
 @Entity
 @Table(name = "maxuser")
-
 public class User implements Serializable {
 
     @Id
@@ -24,8 +23,8 @@ public class User implements Serializable {
     @Column(name = "company", nullable = true)
     private String Company;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<DeepLink> Link;
+    //@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   // private Set<DeepLink> Link;
 
 
     public User() {
