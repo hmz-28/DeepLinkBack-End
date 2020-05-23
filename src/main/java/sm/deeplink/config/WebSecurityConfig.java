@@ -1,10 +1,10 @@
 package sm.deeplink.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.support.ErrorPageFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -52,9 +52,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/api/token/*","/api/deeplinks/*","/api/users/*").permitAll()
+
+                .antMatchers("/resources/**", "/api/token/*", "/api/deeplinks/*", "/api/users/*", "/*","/login","/signup",
+                        "/dashboard/add-deeplink","/dashboard/user-profile","/dashboard/show-deeplink","/404", "/deeplink/*","/deeplink/login","/deeplink/signup",
+                        "/deeplink/dashboard/add-deeplink","/deeplink/dashboard/user-profile","/deeplink/dashboard/show-deeplink","/deeplink/404").permitAll()
                 .anyRequest().authenticated()
                 .and()
+
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
@@ -62,8 +66,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public BCryptPasswordEncoder encoder(){
+    public BCryptPasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public ErrorPageFilter errorPageFilter() {
+        return new ErrorPageFilter();
+    }
+
+    @Bean
+    public FilterRegistrationBean disableSpringBootErrorFilter(ErrorPageFilter filter) {
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(filter);
+        filterRegistrationBean.setEnabled(false);
+        return filterRegistrationBean;
     }
 
 }

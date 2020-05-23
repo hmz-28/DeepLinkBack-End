@@ -9,8 +9,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>sm.deeplink</groupId>
-	<artifactId>mainapp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>deeplink</artifactId>
+	<version>v-0.0.1</version>
 	<packaging>war</packaging>
 	<name>DeepLinkBack-End</name>
 	<description>Demo project for Spring Boot</description>

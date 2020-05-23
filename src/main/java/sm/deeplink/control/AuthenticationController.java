@@ -6,6 +6,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import sm.deeplink.config.JwtTokenUtil;
 import sm.deeplink.entity.User;
 import sm.deeplink.model.ApiResponse;
@@ -41,6 +42,11 @@ public class AuthenticationController {
     public User saveUser(@RequestBody User user) {
 
         return userService.save(user);
+    }
+
+
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addRedirectViewController("/", "index.html");
     }
 
 }
