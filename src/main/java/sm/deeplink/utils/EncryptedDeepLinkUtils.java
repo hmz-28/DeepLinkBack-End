@@ -42,7 +42,7 @@ public class EncryptedDeepLinkUtils {
         try
         {
             setKey(scrtKey);
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, secretKey);
             return Base64.getEncoder().encodeToString(cipher.doFinal(strToEncrypt.getBytes("UTF-8")));
         }
@@ -58,7 +58,7 @@ public class EncryptedDeepLinkUtils {
         try
         {
             setKey(scrtKey);
-            Cipher cipher = Cipher.getInstance("AES");
+            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, secretKey);
             return new String(cipher.doFinal(Base64.getDecoder().decode(strToDecrypt.getBytes("UTF-8"))));
         }
@@ -68,9 +68,9 @@ public class EncryptedDeepLinkUtils {
         }
         return null;
     }
-    public static void main(String[] args) throws Exception {
+   /* public static void main(String[] args) throws Exception {
 
-/*
+
         String path_link = "hote=maxgps.smartech-tn.com&port=9876&secured=0&timeout=60&username=maxadmin&password=maxadmin&pathDocLinks=" +
                 "Attachments&storeroom=central&itemSet=set1&inspectionAddWo=1&qViewAsset=Asset%20with%20meter&qMeterReading=Asset%20with%20meter" +
                 "&qReceiptPO=PoAppr&qViewPO=PoAppr&qWorkorderView=BT%20DES%207%20DERNIERS%20JOURS&qWorkorderInspection=inspection%20hebdomadaire&" +
@@ -81,6 +81,6 @@ public class EncryptedDeepLinkUtils {
         System.out.println(encrytedLink);
         System.out.println("**********************************************************************************");
         String decrypteLink=decrypteLink(encrytedLink);
-        System.out.println(decrypteLink);*/
-    }
+        System.out.println(decrypteLink);
+    }*/
 }

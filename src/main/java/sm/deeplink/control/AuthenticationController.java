@@ -31,7 +31,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
     public ApiResponse<AuthToken> register(@RequestBody LoginUser loginUser) throws AuthenticationException {
-//        System.out.println(loginUser.toString());
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getUsername(), loginUser.getPassword()));
         final User user = userService.findOne(loginUser.getUsername());
         final String token = jwtTokenUtil.generateToken(user);
@@ -40,7 +40,7 @@ public class AuthenticationController {
 
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     public User saveUser(@RequestBody User user) {
-
+        System.out.println(user.getCompany());
         return userService.save(user);
     }
 

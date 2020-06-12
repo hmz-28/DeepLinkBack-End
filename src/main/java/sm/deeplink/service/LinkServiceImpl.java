@@ -58,6 +58,7 @@ public class LinkServiceImpl implements LinkService {
                 e.printStackTrace();
             }*/
             newLink.setModificationdate(link.getModificationdate());
+
             newLink.setProfile(link.getProfile());
             newLink.setStatus(link.getStatus());
             newLink.setEnvironment(link.getEnvironment());

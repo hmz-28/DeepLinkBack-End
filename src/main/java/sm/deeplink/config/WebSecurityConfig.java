@@ -53,12 +53,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().
                 authorizeRequests()
 
-                .antMatchers("/resources/**", "/api/token/*", "/api/deeplinks/*", "/api/users/*", "/*","/login","/signup",
-                        "/dashboard/add-deeplink","/dashboard/user-profile","/dashboard/show-deeplink","/404", "/deeplink/*","/deeplink/login","/deeplink/signup",
-                        "/deeplink/dashboard/add-deeplink","/deeplink/dashboard/user-profile","/deeplink/dashboard/show-deeplink","/deeplink/404").permitAll()
+                .antMatchers("/resources/**", "/api/token/*", "/api/deeplinks/*", "/api/users/*",
+                        "/deeplink/signup", "/deeplink/dashboard/add-deeplink", "/deeplink/dashboard/user-profile",
+                        "/deeplink/dashboard/show-deeplink", "/deeplink/404").permitAll()
                 .anyRequest().authenticated()
                 .and()
-
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http
