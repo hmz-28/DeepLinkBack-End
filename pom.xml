@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>sm.deeplink</groupId>
 	<artifactId>deeplink</artifactId>
-	<version>v-0.0.1</version>
+	<version>v-0.0.2</version>
 	<packaging>war</packaging>
 	<name>DeepLinkBack-End</name>
 	<description>Demo project for Spring Boot</description>

@@ -76,7 +76,7 @@ public class LinkServiceImpl implements LinkService {
                 .map(user -> {
                     link.setUser(user);
                     DeepLink newLink = new DeepLink();
-                   // System.out.println(link);
+                   // System.out.println(link.getEditedby());
                     newLink.setLinkname(link.getLinkname());
                     newLink.setLinkvalue(aesryptEncoder.encryteLink(link.getLinkvalue()));
                     newLink.setCustomer(link.getCustomer());
@@ -87,7 +87,7 @@ public class LinkServiceImpl implements LinkService {
                     newLink.setStatus(link.getStatus());
                     newLink.setEnvironment(link.getEnvironment());
                     newLink.setUser(link.getUser());
-
+                   // newLink.setCryptedlinkvalue("http://www.smartech-tn.com/launch?" +link.getLinkvalue());
                     linkDao.save(newLink);
                     return newLink;
                 }).orElseThrow(() -> new GlobalExceptionHandler("User not found!"));
@@ -102,7 +102,15 @@ public class LinkServiceImpl implements LinkService {
         return linkDao.findById(linkid)
                 .map(link -> {
                     link.setLinkname(linkUpdated.getLinkname());
-                    link.setLinkvalue(linkUpdated.getLinkvalue());
+                    link.setLinkvalue(aesryptEncoder.encryteLink(link.getLinkvalue()));
+                    link.setCustomer(linkUpdated.getCustomer());
+                    link.setDescription(linkUpdated.getDescription());
+                    link.setEditedby(linkUpdated.getEditedby());
+                    link.setModificationdate(linkUpdated.getModificationdate());
+                    link.setProfile(linkUpdated.getProfile());
+                    link.setStatus(linkUpdated.getStatus());
+                    link.setEnvironment(linkUpdated.getEnvironment());
+                    link.setCryptedlinkvalue("http://www.smartech-tn.com/launch?" +linkUpdated.getLinkvalue());
                     return linkDao.save(link);
                 }).orElseThrow(() -> new GlobalExceptionHandler("Link not found!"));
     }
